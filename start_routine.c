@@ -6,22 +6,21 @@
 /*   By: arforgea <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/09 16:36:03 by arforgea          #+#    #+#             */
-/*   Updated: 2023/04/26 11:29:56 by arforgea         ###   ########.fr       */
+/*   Updated: 2023/04/27 11:20:00 by arforgea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "philo.h"
-#include <pthread.h>
-#include <unistd.h>
 
 t_data	*start_routine(t_data *data)
 {
-	int index;
+	int		index;
 	t_philo	*philo;
 
 	index = 0;
 	data->rules.time_sim_start = get_time();
 	while (index < data->number_of_chair)
 	{
+		data->philo_array[index].last_meal = get_time();
 		philo = &(data->philo_array[index]);
 		if (pthread_create(&philo->thread, NULL, thread_routine, philo))
 		{

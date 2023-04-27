@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   philo.h                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: arforgea <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/04/27 11:21:47 by arforgea          #+#    #+#             */
+/*   Updated: 2023/04/27 11:31:44 by arforgea         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 #ifndef PHILO_H
 # define PHILO_H
 
@@ -5,27 +16,26 @@
 # include <stdlib.h>
 # include <stdio.h>
 # include <unistd.h>
-#include <sys/time.h>
+# include <sys/time.h>
 
-
-typedef struct	s_rules
+typedef struct s_rules
 {
-	int	time_to_die;
-	int	time_to_eat;
-	int	time_to_sleep;
+	int			time_to_die;
+	int			time_to_eat;
+	int			time_to_sleep;
 	long long	time_sim_start;
 }				t_rules;
 
-typedef struct	s_mutex
+typedef struct s_mutex
 {
 	pthread_mutex_t	*say;
 	pthread_mutex_t	*is_alive;
 }				t_mutex;
 
-typedef struct	s_philo
+typedef struct s_philo
 {
 	int				id;
-	long long		last_mile;
+	long long		last_meal;
 	int				*alive;
 	t_rules			*rules;
 	t_mutex			*mutex;
@@ -34,27 +44,31 @@ typedef struct	s_philo
 	pthread_t		thread;
 }				t_philo;
 
-typedef struct	s_data
+typedef struct s_data
 {
-	t_rules 	rules;
+	t_rules		rules;
 	t_mutex		*mutex;
-	t_philo 	*philo_array;
+	t_philo		*philo_array;
 	int			number_of_chair;
 }				t_data;
 
-long long	get_time();
-
-
-t_data	*init_rules(t_data *data, int ttd, int tte,int tts);
-t_data	*init_philo(t_data *data, int number_of_chair);
-
-t_data	*philo_creat(t_data *data);
-
-t_data	*start_routine(t_data *data);
-
-t_data	*destroy_mutex(t_data *data);
-t_data	*destroy_thread(t_data *data, int number_of_thread);
-t_data	*destroy_philo(t_data *data, int number_of_philo);
-
-void	*thread_routine(void *philo);
+long long	get_time(void);
+int			drop_fork(t_philo *current_philo);
+int			take_fork(t_philo *current_philo);
+int			p_say(t_philo *philo, char *str);
+int			p_sleep(t_philo *current_philo, int rules);
+int			check_dead_status(t_philo *current_philo);
+int			set_dead_status(t_philo *current_philo);
+int			eat(t_philo *current_philo);
+int			wankil(t_philo *current_philo);
+int			sleep_in_my_bed(t_philo *current_philo);
+int			take_fork(t_philo *current_philo);
+t_data		*init_rules(t_data *data, int ttd, int tte, int tts);
+t_data		*init_philo(t_data *data, int number_of_chair);
+t_data		*philo_creat(t_data *data);
+t_data		*start_routine(t_data *data);
+t_data		*destroy_mutex(t_data *data);
+t_data		*destroy_thread(t_data *data, int number_of_thread);
+t_data		*destroy_philo(t_data *data, int number_of_philo);
+void		*thread_routine(void *philo);
 #endif

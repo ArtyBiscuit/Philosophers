@@ -6,7 +6,7 @@
 /*   By: arforgea <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/09 15:34:35 by arforgea          #+#    #+#             */
-/*   Updated: 2023/04/26 12:35:48 by arforgea         ###   ########.fr       */
+/*   Updated: 2023/04/27 11:15:52 by arforgea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "philo.h"
@@ -16,8 +16,8 @@
 
 int	set_fork(t_data *data, int index_array)
 {
-	int	mutex_error;
-	t_philo *philo;
+	int		mutex_error;
+	t_philo	*philo;
 
 	mutex_error = 0;
 	philo = data->philo_array;
@@ -26,7 +26,7 @@ int	set_fork(t_data *data, int index_array)
 	if (!philo[index_array].right_fork || mutex_error)
 	{
 		destroy_philo(data, index_array);
-		return(1);
+		return (1);
 	}
 	if (index_array + 1 == data->number_of_chair)
 		philo[0].left_fork = philo[index_array].right_fork;
@@ -54,8 +54,8 @@ int	set_mutex(t_data *data)
 
 int	set_alive(t_data *data)
 {
-	int index;
-	int *alive;
+	int	index;
+	int	*alive;
 
 	if (data->number_of_chair)
 	{
@@ -71,7 +71,7 @@ int	set_alive(t_data *data)
 		}
 		return (0);
 	}
-	return(1);
+	return (1);
 }
 
 t_data	*philo_creat(t_data *data)
@@ -81,20 +81,16 @@ t_data	*philo_creat(t_data *data)
 
 	index = 0;
 	philo = data->philo_array;
-	if(set_mutex(data))
-	{
-		
-	}
-	if(set_alive(data))
-	{
-
-	}
-	while(index < data->number_of_chair)
+	if (set_mutex(data))
+		return (NULL);
+	if (set_alive(data))
+		return (NULL);
+	while (index < data->number_of_chair)
 	{
 		philo[index].mutex = data->mutex;
 		philo[index].rules = &data->rules;
 		philo[index].id = index + 1;
-		if(set_fork(data, index))
+		if (set_fork(data, index))
 		{
 			write(2, "Error: set_fork.\n", 20);
 			return (NULL);
