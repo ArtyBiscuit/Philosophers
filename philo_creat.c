@@ -6,7 +6,7 @@
 /*   By: arforgea <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/09 15:34:35 by arforgea          #+#    #+#             */
-/*   Updated: 2023/04/27 11:15:52 by arforgea         ###   ########.fr       */
+/*   Updated: 2023/04/27 18:08:55 by arforgea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "philo.h"
@@ -87,6 +87,8 @@ t_data	*philo_creat(t_data *data)
 		return (NULL);
 	while (index < data->number_of_chair)
 	{
+		pthread_mutex_init(&philo[index].mutex_last_meal, NULL);
+		//philo[index].end = 0;
 		philo[index].mutex = data->mutex;
 		philo[index].rules = &data->rules;
 		philo[index].id = index + 1;

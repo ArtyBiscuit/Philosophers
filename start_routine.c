@@ -6,10 +6,25 @@
 /*   By: arforgea <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/09 16:36:03 by arforgea          #+#    #+#             */
-/*   Updated: 2023/04/27 11:20:00 by arforgea         ###   ########.fr       */
+/*   Updated: 2023/04/27 15:18:53 by arforgea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "philo.h"
+#include <bits/pthreadtypes.h>
+#include <pthread.h>
+
+static void	join_all(t_data *data)
+{
+	int index;
+
+	index = 0;
+	pthread_join(data->supervisor, NULL);
+	while (index < data->number_of_chair)
+	{
+		pthread_join(data->philo_array[index].thread, NULL);
+		index++;
+	}
+}
 
 t_data	*start_routine(t_data *data)
 {
@@ -30,11 +45,7 @@ t_data	*start_routine(t_data *data)
 		}
 		index++;
 	}
-	index = 0;
-	while (index < data->number_of_chair)
-	{
-		pthread_join(data->philo_array[index].thread, NULL);
-		index ++;
-	}
+	pthread_create(&data->supervisor, NULL, supervisor_routine, data);
+	join_all(data);
 	return (data);
 }

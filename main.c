@@ -6,17 +6,21 @@
 /*   By: arforgea <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/05 15:56:08 by arforgea          #+#    #+#             */
-/*   Updated: 2023/04/27 11:17:10 by arforgea         ###   ########.fr       */
+/*   Updated: 2023/04/27 18:07:31 by arforgea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "philo.h"
 
-int	main(void)
+int	main(int argv, char **argc)
 {
 	t_data	data;
 
-	init_rules(&data, 410, 200, 200);
-	init_philo(&data, 200);
+	if(check_pars(argv, argc))
+		return (1);
+	init_rules(&data, ft_atoi(argc[2]), ft_atoi(argc[3]), ft_atoi(argc[4]));
+	//if (argv == 6)
+	//	data.rules.number_of_meals = ft_atoi(argc[5]);
+	init_philo(&data, ft_atoi(argc[1]));
 	philo_creat(&data);
 	start_routine(&data);
 	destroy_mutex(&data);

@@ -1,40 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   thread_routine.c                                   :+:      :+:    :+:   */
+/*   ft_atoi.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: arforgea <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/08 15:30:50 by arforgea          #+#    #+#             */
-/*   Updated: 2023/04/27 18:05:30 by arforgea         ###   ########.fr       */
+/*   Created: 2022/09/30 19:36:20 by arforgea          #+#    #+#             */
+/*   Updated: 2023/01/02 17:32:41 by arforgea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include "philo.h"
-#include <stdio.h>
-#include <unistd.h>
 
-void	*thread_routine(void *philo)
+int	ft_atoi(const char *nptr)
 {
-	//int		i;
-	t_philo	*current_philo;
+	int	nbr;
+	int	neg;
 
-	current_philo = (t_philo *)philo;
-	if (current_philo->id % 2)
-		usleep(500);
-
-	//i = 0;
-	while (1)
+	nbr = 0;
+	neg = 1;
+	while (*nptr == 32 || (*nptr >= 8 && *nptr <= 13))
+		nptr++;
+	if (*nptr == '-' || *nptr == '+')
 	{
-		if (take_fork(philo))
-			break;
-		if (eat(philo))
-			break;
-		//i++;
-		//meal_cmp(philo, i);
-		if (sleep_in_my_bed(philo))
-			break;
-		if (wankil(philo))
-			break;
+		if (*nptr == '-')
+			neg *= -1;
+		nptr++;
 	}
-	return (NULL);
+	while (*nptr >= '0' && *nptr <= '9')
+	{
+		nbr *= 10;
+		nbr += *nptr - 48;
+		nptr++;
+	}
+	return (nbr * neg);
 }

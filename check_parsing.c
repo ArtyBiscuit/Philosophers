@@ -1,40 +1,44 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   thread_routine.c                                   :+:      :+:    :+:   */
+/*   check_parsing.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: arforgea <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/08 15:30:50 by arforgea          #+#    #+#             */
-/*   Updated: 2023/04/27 18:05:30 by arforgea         ###   ########.fr       */
+/*   Created: 2023/04/27 11:50:47 by arforgea          #+#    #+#             */
+/*   Updated: 2023/04/27 18:08:08 by arforgea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "philo.h"
-#include <stdio.h>
-#include <unistd.h>
 
-void	*thread_routine(void *philo)
+static int	check_str(char *str)
 {
-	//int		i;
-	t_philo	*current_philo;
+	int	index;
 
-	current_philo = (t_philo *)philo;
-	if (current_philo->id % 2)
-		usleep(500);
-
-	//i = 0;
-	while (1)
+	index = 0;
+	while(str[index])
 	{
-		if (take_fork(philo))
-			break;
-		if (eat(philo))
-			break;
-		//i++;
-		//meal_cmp(philo, i);
-		if (sleep_in_my_bed(philo))
-			break;
-		if (wankil(philo))
-			break;
+		if (!(str[index] >= '0' && str[index] <= '9'))
+			return (1);
+		index++;
 	}
-	return (NULL);
+	return (0);
+}
+
+int	check_pars(int input_size, char **input)
+{
+	int	index;
+
+	if (input_size != 5)
+		return (1);
+	index = 1;
+	while (index < input_size)
+	{
+		if(check_str(input[index]))
+			return (1);
+		index++;
+	}
+	if (ft_atoi(input[1]) == 0)
+		return (1);
+	return (0);
 }
